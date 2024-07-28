@@ -20,14 +20,15 @@ router.post(
   '/', 
   md.checkAccountPayload,
   md.checkAccountNameUnique,
-  (req, res, next) => {
-  // DO YOUR MAGIC
-  try {
-    res.json('post account')
-  } catch (err) {
-    next(err)
+  async (req, res, next) => {
+    try {
+      const newAccount = await Account.create(req.body);
+      res.status(201).json(newAccount);
+    } catch (err) {
+      next(err);
+    }
   }
-})
+);
 
 router.put(
   '/:id', 
